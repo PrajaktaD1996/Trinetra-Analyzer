@@ -1,51 +1,70 @@
 import { useState } from "react";
 
 function App() {
-  
-  const [text, setText] = useState("Test-fellow");
-  const [result, setResult] = useState("");
-   
+  const [result, setResult] = useState(null);
 
-  const handleSubmit = async () => {
-  // console.log(text);
-  const res = await fetch("http://localhost:3000/analyze", {
+  const runAnalysis = async (id) => {
+    const res = await fetch("http://localhost:5000/analyze", {
       method: "POST",
-       headers: {
-         "Content-Type": "application/json"
-       },
-       body: JSON.stringify({
-        transcript: text
-      })
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id })  
     });
 
-     const data = await res.json();
-     console.log(data);
-    //setResult(data.result);
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log("Server Error:", data);
+      return;
+    }
+    setResult(data);
+
+    console.log("AI Result:", data);
   };
 
   return (
-    <div><button onClick={handleSubmit}>clickMe!</button></div>
-   
-    // <div style={{ padding: 20 }}>
-    //   <h2>Trinethra Analyzer</h2>
+    <div>
+      <h1>Trinethra Analyzer</h1>
 
-    //   <textarea
-    //     rows="6"
-    //     cols="50"
-    //     value={text}
-    //     onChange={(e) => setText(e.target.value)}
-    //     placeholder="Paste transcript here..."
-    //   />
+      <button onClick={() => runAnalysis("transcript-001")}>
+        Run Analysis 1
+      </button>
 
-    //   <br /><br />
+      {/* <button onClick={() => runAnalysis("transcript-002")}>
+        Run Analysis 2
+      </button>
 
-    //   <button onClick={handleSubmit}>
-    //     Run Analysis
-    //   </button>
+      <button onClick={() => runAnalysis("transcript-003")}>
+        Run Analysis 3
+      </button> */}
 
-    //   <h3>Result:</h3>
-    //   <pre>{result}</pre>
-    // </div>
+      {result && (
+        <div>
+          <h2>Score: {result.score}</h2>
+
+          {/* <h3>Evidence</h3>
+          {result.evidence?.map((e, i) => (
+            <p key={i}>{e.quote} ({e.tag})</p>
+          ))}
+
+          <h3>KPIs</h3>
+          {result.kpis?.map((k, i) => (
+            <span key={i}>{k} </span>
+          ))}
+
+          <h3>Gaps</h3>
+          {result.gaps?.map((g, i) => (
+            <p key={i}>{g}</p>
+          ))}
+
+          <h3>Questions</h3>
+          {result.questions?.map((q, i) => (
+            <p key={i}>{q}</p>
+          ))} */}
+        </div>
+      )}
+    </div>
   );
 }
 
