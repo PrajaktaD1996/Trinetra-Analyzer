@@ -2,27 +2,30 @@ import { useState } from "react";
 
 function App() {
   
-  // const [text, setText] = useState("");
-  // const [result, setResult] = useState("");
+  const [text, setText] = useState("Test-fellow");
+  const [result, setResult] = useState("");
+   
 
-  // const handleSubmit = async () => {
-  //   const res = await fetch("http://localhost:3000/analyze", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({
-  //       transcript: text
-  //     })
-  //   });
+  const handleSubmit = async () => {
+  // console.log(text);
+  const res = await fetch("http://localhost:3000/analyze", {
+      method: "POST",
+       headers: {
+         "Content-Type": "application/json"
+       },
+       body: JSON.stringify({
+        transcript: text
+      })
+    });
 
-  //   const data = await res.json();
-  //   console.log(data.result);
+     const data = await res.json();
+     console.log(data);
     //setResult(data.result);
- // };
+  };
 
   return (
-    <div>Hello</div>
+    <div><button onClick={handleSubmit}>clickMe!</button></div>
+   
     // <div style={{ padding: 20 }}>
     //   <h2>Trinethra Analyzer</h2>
 
