@@ -4,7 +4,7 @@ function App() {
   const [result, setResult] = useState(null);
 
   const runAnalysis = async (id) => {
-    const res = await fetch("http://localhost:5000/analyze", {
+    const res = await fetch("http://localhost:3000/analyze", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
